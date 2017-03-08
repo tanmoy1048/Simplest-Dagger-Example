@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
+import com.bangladroid.daggerexample.pref.MySharedPreferenceManager;
 import com.bangladroid.daggerexample.rest.RestClient;
 
 import java.util.List;
@@ -19,6 +20,9 @@ public class BaseActivity extends AppCompatActivity {
     @Inject
     RestClient restClient;
 
+    @Inject
+    MySharedPreferenceManager sharedPreferenceManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +37,7 @@ public class BaseActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     for (String string : response.body())
                         textView.append(string + " ");
+                    textView.append("and it worked");
                 } else {
                     textView.setText("Not Successfull");
                 }
