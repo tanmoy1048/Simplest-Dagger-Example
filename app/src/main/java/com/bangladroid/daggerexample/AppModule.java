@@ -1,8 +1,6 @@
 package com.bangladroid.daggerexample;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import javax.inject.Singleton;
 
@@ -20,7 +18,7 @@ public class AppModule {
 
     @Singleton
     @Provides
-    SharedPreferences providePreference() {
-        return PreferenceManager.getDefaultSharedPreferences(context);
+    MySharedPreferenceManager providePreference() {
+        return new MySharedPreferenceManager(context);
     }
 }
