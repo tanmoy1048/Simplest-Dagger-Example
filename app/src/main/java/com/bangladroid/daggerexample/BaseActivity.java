@@ -1,16 +1,23 @@
 package com.bangladroid.daggerexample;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
+import com.bangladroid.daggerexample.rest.RestClient;
+
+import java.util.List;
+
 import javax.inject.Inject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class BaseActivity extends AppCompatActivity {
 
     @Inject
-    SharedPreferences sharedPreferences;
+    RestClient restClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,10 +25,24 @@ public class BaseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         DaggerApplication.component().inject(this);
 
-        sharedPreferences.edit().putString("key_label", "test").apply();
+        final TextView textView = (TextView) findViewById(R.id.text);
+        Call<List<String>> repos = restClient.getService().listString();
+        repos.enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                if (response.isSuccessful()) {
+                    for (String string : response.body())
+                        textView.append(string + " ");
+                } else {
+                    textView.setText("Not Successfull");
+                }
+            }
 
-        if(sharedPreferences.contains("key_label")){
-            ((TextView)findViewById(R.id.text)).setText("It worked");
-        }
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+                textView.setText("Not Successfull");
+            }
+        });
+
     }
 }
