@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.bangladroid.daggerexample.rest.ApiService;
+import com.bangladroid.daggerexample.rest.ApiServiceModule;
+import com.bangladroid.daggerexample.rest.RestClient;
 
 import java.util.List;
 
@@ -16,14 +18,19 @@ import retrofit2.Response;
 
 public class BaseActivity extends AppCompatActivity {
 
+    //just for testing, both instance are okay to test with sub-component.
+
     @Inject
     ApiService apiService;
+
+    @Inject
+    RestClient restClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        DaggerApplication.component().inject(this);
+        DaggerApplication.component().newApiServiceComponent(new ApiServiceModule()).inject(this);
 
         final TextView textView = (TextView) findViewById(R.id.text);
         Call<List<String>> repos = apiService.listString();

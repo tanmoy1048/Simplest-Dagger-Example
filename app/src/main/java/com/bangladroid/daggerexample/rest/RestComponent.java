@@ -11,4 +11,6 @@ import dagger.Component;
 @Component(modules = {RestModule.class})
 public interface RestComponent {
     RestClient restClient();
+
+    ApiServiceComponent newApiServiceComponent(ApiServiceModule apiServiceModule);
 }
