@@ -1,7 +1,5 @@
 package com.bangladroid.daggerexample.rest;
 
-import com.bangladroid.daggerexample.BaseActivity;
-
 import javax.inject.Singleton;
 
 import dagger.Component;
@@ -12,5 +10,5 @@ import dagger.Component;
 @Singleton
 @Component(modules = {RestModule.class})
 public interface RestComponent {
-    void inject(BaseActivity activity);
+    RestClient restClient();
 }

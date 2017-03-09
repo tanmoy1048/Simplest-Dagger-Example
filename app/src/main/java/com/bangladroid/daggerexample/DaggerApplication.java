@@ -2,6 +2,9 @@ package com.bangladroid.daggerexample;
 
 import android.app.Application;
 
+import com.bangladroid.daggerexample.rest.ApiServiceComponent;
+import com.bangladroid.daggerexample.rest.ApiServiceModule;
+import com.bangladroid.daggerexample.rest.DaggerApiServiceComponent;
 import com.bangladroid.daggerexample.rest.DaggerRestComponent;
 import com.bangladroid.daggerexample.rest.RestComponent;
 import com.bangladroid.daggerexample.rest.RestModule;
@@ -11,7 +14,7 @@ import com.bangladroid.daggerexample.rest.RestModule;
  */
 
 public class DaggerApplication extends Application {
-    private static RestComponent component;
+    private static ApiServiceComponent component;
 
     @Override
     public void onCreate() {
@@ -19,11 +22,12 @@ public class DaggerApplication extends Application {
         component = init();
     }
 
-    public static RestComponent component() {
+    public static ApiServiceComponent component() {
         return component;
     }
 
-    public static RestComponent init() {
-        return DaggerRestComponent.builder().restModule(new RestModule()).build();
+    public static ApiServiceComponent init() {
+        RestComponent daggerRestComponent = DaggerRestComponent.builder().restModule(new RestModule()).build();
+        return DaggerApiServiceComponent.builder().restComponent(daggerRestComponent).apiServiceModule(new ApiServiceModule()).build();
     }
 }

@@ -8,18 +8,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class RestClient {
-    private ApiService service;
+    private Retrofit retrofit;
 
     public RestClient(){
-        Retrofit retrofit = new Retrofit.Builder()
+        retrofit = new Retrofit.Builder()
                 .baseUrl("http://demo2821545.mockable.io/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
-        service = retrofit.create(ApiService.class);
     }
 
-    public ApiService getService() {
-        return service;
+    public Retrofit getRetrofit() {
+        return retrofit;
     }
 }
